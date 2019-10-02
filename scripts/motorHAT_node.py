@@ -32,6 +32,9 @@ def motorHAT_node():
         time.sleep(3)
         r.sleep()
     motor_1.run(4)
+    desc = "Motor RELEASE"
+    rospy.loginfo(desc)
+    pub.publish(desc)
 
 if __name__ == '__main__':
     try:
