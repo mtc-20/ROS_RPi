@@ -35,7 +35,7 @@ def motorHAT_node():
         motor_1.run(1)
         motor_2.run(1)
         time.sleep(3)
-        r.sleep()
+        rospy.spin()
     elif cmd=="rev":
         motor_1.setSpeed(default_speed)
         motor_2.setSpeed(default_speed)
@@ -45,7 +45,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(3)
-        r.sleep()
+        rospy.spin()
     elif cmd=="left":
         motor_1.setSpeed(default_speed+step)
         motor_2.setSpeed(default_speed)
@@ -55,7 +55,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(2)
-        r.sleep()
+        rospy.spin()
     elif cmd=="right":
         motor_1.setSpeed(default_speed)
         motor_2.setSpeed(default_speed+step)
@@ -65,7 +65,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(2)
-        r.sleep()
+        rospy.spin()
     elif cmd=="rel":
         desc = "Bot RELEASE"
         rospy.loginfo(desc)
@@ -73,16 +73,7 @@ def motorHAT_node():
         motor_1.run(3)
         motor_2.run(3)
         time.sleep(3)
-        r.sleep()
-
-        motor_1.setSpeed(default_speed+step)
-        motor_2.setSpeed(default_speed)
-        desc = "Bot turns LEFT"
-        rospy.loginfo(desc)
-        pub.publish(desc)
-        motor_1.run(2)
-        motor_2.run(2)
-        time.sleep(3)
+        rospy.spin()
     else:
         motor_1.setSpeed(0)
         motor_2.setSpeed(0)
