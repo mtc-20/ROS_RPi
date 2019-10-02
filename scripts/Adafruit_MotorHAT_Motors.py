@@ -214,11 +214,12 @@ class Adafruit_DCMotor:
 
 
 class Adafruit_MotorHAT:
+    #DCMotor Commands
     FORWARD = 1
     BACKWARD = 2
     BRAKE = 3
+    #ServoMotor Commands
     RELEASE = 4
-
     SINGLE = 1
     DOUBLE = 2
     INTERLEAVE = 3
