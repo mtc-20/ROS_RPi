@@ -5,13 +5,14 @@ import time
 from Adafruit_MotorHAT_Motors import Adafruit_DCMotor, Adafruit_MotorHAT
 from std_msgs.msg import String
 
-global cmd="rel"
+global cmd
 
 def callback(data):
     cmd=data.data
     rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
 
 def motorHAT_node():
+    cmd= "rel"
     pub = rospy.Publisher('motorHAT_status', String, queue_size=10)
     rospy.init_node('motorHAT', anonymous=True)
     r = rospy.Rate(5)
@@ -34,6 +35,7 @@ def motorHAT_node():
         motor_1.run(1)
         motor_2.run(1)
         time.sleep(3)
+        r.sleep()
     elif cmd=="rev":
         motor_1.setSpeed(default_speed)
         motor_2.setSpeed(default_speed)
@@ -43,6 +45,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(3)
+        r.sleep()
     elif cmd=="left":
         motor_1.setSpeed(default_speed+step)
         motor_2.setSpeed(default_speed)
@@ -52,6 +55,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(2)
+        r.sleep()
     elif cmd=="right":
         motor_1.setSpeed(default_speed)
         motor_2.setSpeed(default_speed+step)
@@ -61,6 +65,7 @@ def motorHAT_node():
         motor_1.run(2)
         motor_2.run(2)
         time.sleep(2)
+        r.sleep()
     elif cmd=="rel":
         desc = "Bot RELEASE"
         rospy.loginfo(desc)
@@ -68,6 +73,7 @@ def motorHAT_node():
         motor_1.run(3)
         motor_2.run(3)
         time.sleep(3)
+        r.sleep()
 
         motor_1.setSpeed(default_speed+step)
         motor_2.setSpeed(default_speed)
