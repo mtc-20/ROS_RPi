@@ -34,6 +34,16 @@ step = rospy.get_param('~speed_step',50)
 wheelbase = 0.02 # m
 wheelradius = .065 # m
 
+## custom limits for robot velocities
+#max_vel = 1.0
+#max_phi = 1.0
+
+# custom range
+vel2_max = (wheelbase/2.0 + 1.0)/wheelradius
+vel2_min = -(wheelbase/2.0 + 1.0)/wheelradius
+vel2_max = (wheelbase/2.0 + 1.0)/wheelradius
+vel2_min = -(wheelbase/2.0 + 1.0)/wheelradius
+
 def callback(data):
     cmd=data.data
     rospy.loginfo(rospy.get_caller_id() + ": I heard %s", data.data)
@@ -104,13 +114,14 @@ def callback(data):
         time.sleep(5)
 
 def callback_vel(msg):
+    global vel2_min, vel2_max, vel1_min, vel1_max
     vx=msg.linear.x
     phi=msg.angular.z
     rospy.loginfo( "Received velocity commmands: linear: %f  angular %f",msg.linear.x, msg.angular.z )
     vel_1 = (vx - (phi*wheelbase/2.0))/wheelradius
     vel_2 = (vx + (phi*wheelbase/2.0))/wheelradius
-    speed_1 = (vel_1+1)*255/2.0
-    speed_2 = (vel_2+50)*255/100.0
+    speed_1 = (vel_1 - vel1_min)*255/(vel1_max - vel1_min)
+    speed_2 = (vel_2 - vel2_min)*255/(vel2_max - vel2_max)
     rospy.loginfo( "Desired velocity wheel_1: %f  rad/s wheel_2 %f rad/s", vel_1, vel_2 )
     rospy.loginfo( "Setting speeds motor_1: %f  motor_2 %f", speed_1, speed_2 )
     motor_1.setSpeed(int(speed_1))
