@@ -2,20 +2,34 @@
 """
 Created on Thu Oct 24 13:10:57 2019
 
+Added code to run from PiCamera, with Threading
+
 @author: Wolf
 """
 #import numpy
 import cv2
 from datetime import datetime
+from imutils.video.pivideostream import PiVideoStream
+import time
 
+# Load Classifiers
+start = time.time()
 left_cascade = cv2.CascadeClassifier('arrows_trained/leftGUI_cascade.xml')
 right_cascade = cv2.CascadeClassifier('arrows_trained/right_cascade.xml')
 up_cascade = cv2.CascadeClassifier('arrows_trained/upGUI_cascade.xml')
-cap = cv2.VideoCapture(0)
+end = time.time()
+
+print("[INFO] Loaded classifers. Time elapsed: {.2f} s".format(end-start))
+#cap = cv2.VideoCapture(0)
+picam = PiVideoStream().start()
+print("[INFO] Warming up cameras.")
+time.sleep(2)
+
 #ctr = 0
 while True:
-    ret, frame = cap.read()
+    #ret, frame = cap.read()
     #frame = cv2.flip(frame,1)
+    frame = picam.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     lefts= left_cascade.detectMultiScale(gray, 1.1, 3) 
     for x,y,w,h in lefts:
@@ -39,5 +53,6 @@ while True:
     if k%256 == 27:
         break
 
-cap.release()
+#cap.release()
+picam.stop()
 cv2.destroyAllWindows()
