@@ -56,7 +56,7 @@ camera.close()
 
 print ("[INFO] sampling THREADED frames from PiCamera module...")
 vs = PiVideoStream().start()
-time.sleep(2
+time.sleep(2)
 fps = FPS().start()
 
 
